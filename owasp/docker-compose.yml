@@ -1,0 +1,25 @@
+services:
+  juice-shop:
+    image: bkimminich/juice-shop
+    container_name: juice-shop
+    ports:
+      - "3000:3000"
+    networks:
+      - security-lab
+
+  zap:
+    image: ghcr.io/zaproxy/zaproxy:stable
+    container_name: zap
+    user: zap
+    command: zap-webswing.sh
+    ports:
+      - "8080:8080"
+      - "8090:8090"
+    networks:
+      - security-lab
+    depends_on:
+      - juice-shop
+
+networks:
+  security-lab:
+    driver: bridge
